@@ -1,0 +1,106 @@
+<section class="lookbook center">
+
+    <h2 class="inline-richtext h1 scroll-trigger animate--slide-in">{{ section.settings.lookbook_title }}</h2>
+    <p>{{ section.settings.lookbook_desc }}</p>
+
+    <div class="lookbook_products-container">
+        {% for product in section.settings.lookbook_products %}
+            <div class="lookbook_product" onclick="showDetails(event)">
+                
+
+                    {% if product.featured_image %}
+                        <div class="lookbook_image-container">
+                            <img
+                                src="{{ product.featured_media | image_url: width: 300 }}"
+                                alt="{{ product.featured_media.alt | escape }}"
+                                class="motion-reduce lookbook_image"
+                            >
+                        </div>
+                    {% else  %}
+                        {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {% endif %}
+
+                    <div class="lookbook_details">
+                        <h3>
+                            <a href="{{ product.url }}" class="lookbook_link">
+                                {{ product.title }}
+                            </a>
+                        </h3>
+
+                        <h4>{{ product.price | money }}</h4>
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</section>
+
+<style>
+    .lookbook_products-container {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 1800px;
+        margin: auto;
+    }
+
+    .lookbook_product {
+        width: calc(100%/4);
+        position: relative;
+    }
+
+    .lookbook_link {
+        display: block;
+        position: relative;
+    }
+
+    .lookbook_details {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(255, 255, 255, .7);
+        height: 150px;
+        width: 150px;
+        padding: 0 10px;
+        transition: .3s ease;
+        z-index: 1;
+        /* opacity: 0; */
+    }
+
+    .lookbook_image {
+        width: 100%;
+    }
+</style>
+
+{%  schema %}
+    {
+        "name": "Lookbook",
+        "disabled_on": {
+            "groups": ["header", "footer"]
+        },
+        "settings": [
+            {
+                "type": "text",
+                "id": "lookbook_title",
+                "label": "Title"
+            },
+            {
+                "type": "richtext",
+                "id": "lookbook_desc",
+                "label": "Description"
+            },
+            {
+                "type": "product_list",
+                "id": "lookbook_products",
+                "label": "Select Lookbook"
+            }
+        ],
+        "presets": [
+            {
+            "name": "Lookbook",
+            "category": "Collections"
+            }
+        ]
+    }
+{% endschema %}
