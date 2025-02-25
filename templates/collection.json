@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main-collection-banner": {
@@ -27,10 +36,19 @@
         "padding_top": 20,
         "padding_bottom": 68
       }
+    },
+    "lookbook_XC9K9d": {
+      "type": "lookbook",
+      "settings": {
+        "lookbook_title": "{{ metaobjects.lookbook[\"lookbook-two\"].title.value }}",
+        "lookbook_desc": "<p>{{ metaobjects.lookbook[\"lookbook-two\"].description | metafield_tag }}</p>",
+        "lookbook_products": "{{ metaobjects.lookbook[\"lookbook-two\"].products_list.value }}"
+      }
     }
   },
   "order": [
     "main-collection-banner",
-    "main-collection-product-grid"
+    "main-collection-product-grid",
+    "lookbook_XC9K9d"
   ]
 }
