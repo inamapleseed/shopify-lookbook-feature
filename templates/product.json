@@ -83,16 +83,9 @@
         "padding_bottom": 44
       }
     },
-    "lookbook_jfM9Ln": {
-      "type": "lookbook",
-      "settings": {
-        "lookbook_title": "",
-        "lookbook_desc": "",
-        "lookbook_products": []
-      }
-    },
     "related-products": {
       "type": "related-products",
+      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -112,7 +105,6 @@
   },
   "order": [
     "main",
-    "lookbook_jfM9Ln",
     "related-products"
   ]
 }
