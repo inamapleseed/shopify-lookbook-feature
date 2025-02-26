@@ -788,30 +788,7 @@
                       {% assign item_id = 'gid://shopify/Product/' | append: item.id %}
 
                       {% if item_id == product_gid %}
-                        <div class="lookbook_product" onclick="showDetails(event)">
-                          {% if item.featured_image %}
-                              <div class="lookbook_image-container">
-                                  <img
-                                      src="{{ item.featured_media | image_url: width: 300 }}"
-                                      alt="{{ item.featured_media.alt | escape }}"
-                                      class="motion-reduce lookbook_image"
-                                      draggable="false"
-                                  >
-                              </div>
-                          {% else  %}
-                              {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
-                          {% endif %}
-
-                          <div class="lookbook_details">
-                              <h3 class="lookbook_product-title">
-                                  <a href="{{ item.url }}" class="lookbook_link full-unstyled-link">
-                                      {{ item.title }}
-                                  </a>
-                              </h3>
-
-                              <h4>{{ item.price | money }}</h4>
-                          </div>
-                        </div>
+                        {% include 'lookbook-product-display' %}
                       {% endif %}
                     {%- endfor -%}
                   {%- endfor -%}

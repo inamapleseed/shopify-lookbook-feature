@@ -7,33 +7,8 @@
     <p>{{ section.settings.lookbook_desc }}</p>
 
     <div class="lookbook_products-container">
-        {% for product in section.settings.lookbook_products %}
-            <div class="lookbook_product" onclick="showDetails(event)">
-                
-
-                    {% if product.featured_image %}
-                        <div class="lookbook_image-container">
-                            <img
-                                src="{{ product.featured_media | image_url: width: 300 }}"
-                                alt="{{ product.featured_media.alt | escape }}"
-                                class="motion-reduce lookbook_image"
-                                draggable="false"
-                            >
-                        </div>
-                    {% else  %}
-                        {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
-                    {% endif %}
-
-                    <div class="lookbook_details">
-                        <h3 class="lookbook_product-title">
-                            <a href="{{ product.url }}" class="lookbook_link full-unstyled-link">
-                                {{ product.title }}
-                            </a>
-                        </h3>
-
-                        <h4>{{ product.price | money }}</h4>
-                    </div>
-            </div>
+        {% for item in section.settings.lookbook_products %}
+            {% include 'lookbook-product-display' %}
         {% endfor %}
     </div>
 </section>
