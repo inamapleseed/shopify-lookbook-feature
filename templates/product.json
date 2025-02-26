@@ -67,6 +67,7 @@
         "share"
       ],
       "settings": {
+        "show_related_lookbook": true,
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
         "media_size": "medium",
@@ -80,6 +81,14 @@
         "enable_video_looping": false,
         "padding_top": 36,
         "padding_bottom": 44
+      }
+    },
+    "lookbook_jfM9Ln": {
+      "type": "lookbook",
+      "settings": {
+        "lookbook_title": "",
+        "lookbook_desc": "",
+        "lookbook_products": []
       }
     },
     "related-products": {
@@ -98,14 +107,6 @@
         "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 68
-      }
-    },
-    "lookbook_jfM9Ln": {
-      "type": "lookbook",
-      "settings": {
-        "lookbook_title": "",
-        "lookbook_desc": "",
-        "lookbook_products": []
       }
     }
   },
