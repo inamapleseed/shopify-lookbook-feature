@@ -766,40 +766,36 @@
       {% if lookbook %}
         {% assign lookbook_product_gids = lookbook.products_list | remove: '[' | remove: ']' | remove: '"' | split: ',' %}
   
-        <section class="lookbook center">
-          <div class="page-width">
+        <section class="page-width lookbook center">
+          {% if lookbook.title.value %}
+            <h2 class="inline-richtext h1 scroll-trigger animate--slide-in">{{ lookbook.title.value }}</h2>
+          {% endif %}
+  
+          {% if lookbook.description.value %}
+            <p class="scroll-trigger  animate--slide-in">{{ lookbook.description.value }}</p>
+          {% endif %}
+  
+          {% if lookbook_product_gids.size > 0 %}
+            <div class="scroll-trigger  animate--slide-in lookbook_products-container">
 
-              {% if lookbook.title.value %}
-                <h2 class="inline-richtext h1 scroll-trigger animate--slide-in">{{ lookbook.title.value }}</h2>
-              {% endif %}
-      
-              {% if lookbook.description.value %}
-                <p class="scroll-trigger  animate--slide-in">{{ lookbook.description.value }}</p>
-              {% endif %}
-      
-              {% if lookbook_product_gids.size > 0 %}
-                <div class="scroll-trigger  animate--slide-in lookbook_products-container">
+              {% comment %} Loop through all products to find those matching product IDs from the Lookbook {% endcomment %}
+              {%- for product_gid in lookbook_product_gids -%}
+                {% assign product_found = false %}
 
-                  {% comment %} Loop through all products to find those matching product IDs from the Lookbook {% endcomment %}
-                  {%- for product_gid in lookbook_product_gids -%}
-                    {% assign product_found = false %}
+                {%- for item in collections.all.products -%}
+                  {% if product_found == false %}
+                    {% assign item_id = 'gid://shopify/Product/' | append: item.id %}
 
-                    {%- for item in collections.all.products -%}
-                      {% if product_found == false %}
-                        {% assign item_id = 'gid://shopify/Product/' | append: item.id %}
-
-                        {% if item_id == product_gid %}
-                          {% include 'lookbook-product-display' %}
-                          {% assign product_found = true %}
-                        {% endif %}
-                        
-                      {% endif %}
-                    {%- endfor -%}
-                  {%- endfor -%}
-                </div>
-              {% endif %}
-
-          </div>
+                    {% if item_id == product_gid %}
+                      {% include 'lookbook-product-display' %}
+                      {% assign product_found = true %}
+                    {% endif %}
+                    
+                  {% endif %}
+                {%- endfor -%}
+              {%- endfor -%}
+            </div>
+          {% endif %}
         </section>
       {% endif %}
     {% endfor %}
