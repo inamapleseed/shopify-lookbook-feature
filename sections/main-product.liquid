@@ -724,6 +724,108 @@
   </div>
 </product-info>
 
+{% comment %} 
+    ------------------- Custom Show Related Lookbook section below -------------------
+        This section displays lookbooks that contain the current product.
+{% endcomment %}
+
+{{ 'lookbook.css' | asset_url | stylesheet_tag }}
+{{ 'lookbook.js' | asset_url | script_tag }}
+
+
+{% comment %} 
+  This block checks if the 'show related lookbook' feature is enabled, and if the main product has an associated lookbook.
+  It then loops through all lookbooks to find matches, appending the relevant lookbook handles to an array.
+{% endcomment %}
+  
+{% if metaobjects.lookbook.values and section.settings.show_related_lookbook and product.id %}
+  {% assign product_lookbooks = '' %}
+  {% assign current_product_id = 'gid://shopify/Product/' | append: product.id %}
+  
+  {% for lookbook in metaobjects.lookbook.values %}
+    {% assign product_gid_list = lookbook.products_list | split: ',' %}
+    
+    {% for product_gid in product_gid_list %}
+      {% assign clean_gid = product_gid | remove: '[' | remove: ']' | remove: '"' | strip %}
+
+      {% if clean_gid == current_product_id %}
+        {% assign product_lookbooks = product_lookbooks | append: lookbook.system.handle | append: ',' %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+  
+  {% assign product_lookbooks_array = product_lookbooks | split: ',' %}
+
+  {% comment %}
+    This block loops through the array of lookbook handles and retrieves each corresponding lookbook data.
+  {% endcomment %}
+  {% if product_lookbooks_array.size > 0 %}
+    {% for lookbook_handle in product_lookbooks_array %}
+      {% assign lookbook = shop.metaobjects.lookbook[lookbook_handle] %}
+  
+      {% if lookbook %}
+        {% assign lookbook_product_gids = lookbook.products_list | remove: '[' | remove: ']' | remove: '"' | split: ',' %}
+  
+        <section class="lookbook center">
+          <div class="page-width">
+
+              {% if lookbook.title.value %}
+                <h2 class="inline-richtext h1 scroll-trigger animate--slide-in">{{ lookbook.title.value }}</h2>
+              {% endif %}
+      
+              {% if lookbook.description.value %}
+                <p class="scroll-trigger  animate--slide-in">{{ lookbook.description.value }}</p>
+              {% endif %}
+      
+              {% if lookbook_product_gids.size > 0 %}
+                <div class="scroll-trigger  animate--slide-in lookbook_products-container">
+
+                  {%- for product_gid in lookbook_product_gids -%}
+                    {% comment %} {{product_gid}} {% endcomment %}
+                    {% comment %} Loop through all products to find those matching product IDs from the Lookbook {% endcomment %}
+                    {%- for item in collections.all.products -%}
+                      {% assign item_id = 'gid://shopify/Product/' | append: item.id %}
+
+                      {% if item_id == product_gid %}
+                        <div class="lookbook_product" onclick="showDetails(event)">
+                          {% if item.featured_image %}
+                              <div class="lookbook_image-container">
+                                  <img
+                                      src="{{ item.featured_media | image_url: width: 300 }}"
+                                      alt="{{ item.featured_media.alt | escape }}"
+                                      class="motion-reduce lookbook_image"
+                                      draggable="false"
+                                  >
+                              </div>
+                          {% else  %}
+                              {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                          {% endif %}
+
+                          <div class="lookbook_details">
+                              <h3 class="lookbook_product-title">
+                                  <a href="{{ item.url }}" class="lookbook_link full-unstyled-link">
+                                      {{ item.title }}
+                                  </a>
+                              </h3>
+
+                              <h4>{{ item.price | money }}</h4>
+                          </div>
+                        </div>
+                      {% endif %}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                </div>
+              {% endif %}
+
+          </div>
+        </section>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endif %}
+
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",
@@ -2077,6 +2179,12 @@
     }
   ],
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_related_lookbook",
+      "label": "Show Related Lookbook",
+      "default": false
+    },
     {
       "type": "checkbox",
       "id": "enable_sticky_info",
