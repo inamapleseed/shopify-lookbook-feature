@@ -729,10 +729,6 @@
         This section displays lookbooks that contain the current product.
 {% endcomment %}
 
-{{ 'lookbook.css' | asset_url | stylesheet_tag }}
-{{ 'lookbook.js' | asset_url | script_tag }}
-
-
 {% comment %} 
   This block checks if the 'show related lookbook' feature is enabled, and if the main product has an associated lookbook.
   It then loops through all lookbooks to find matches, appending the relevant lookbook handles to an array.
